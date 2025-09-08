@@ -1,0 +1,25 @@
+{
+  "title": "All Products",
+  "collection": "all",
+  "viewAllUrl": "/collections/all",
+  "ctaText": "Add To Basket",
+  "promoBadgeText": "Buy 3 Get Another FREE",
+  "limit": 12,
+  "theme": {
+    "ctaBg": "#f4ce00",
+    "ctaText": "#111111",
+    "badgeBg": "#1aa96b",
+    "badgeText": "#ffffff",
+    "priceColor": "#111111",
+    "titleColor": "#111111",
+    "mutedColor": "#555555",
+    "cardBg": "#ffffff",
+    "cardBorder": "#e5e5e5"
+  },
+  "slider": {
+    "gap": 16,
+    "visibleMobile": 2,
+    "visibleTablet": 3,
+    "visibleDesktop": 5
+  }
+}
