@@ -49,8 +49,7 @@
       const scroller = root.querySelector('.book-carousel__scroller');
       scroller.innerHTML = products.map(p => renderCard(p, conf)).join('');
 
-      // Wire up Add to cart + nav buttons
-      wireCart(scroller);
+      // Wire up nav buttons
       wireNav(root);
 
     } catch (e) {
@@ -106,30 +105,6 @@
     `;
   }
 
-  function wireCart(scroller) {
-    scroller.addEventListener('click', async (e) => {
-      const btn = e.target.closest('.book-card__cta[data-variant-id]');
-      if (!btn) return;
-      btn.disabled = true;
-      try {
-        const id = Number(btn.dataset.variantId);
-        await fetch('/cart/add.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify({ id, quantity: 1 })
-        });
-        // Optional: show a toast or update cart count
-        btn.textContent = 'Added!';
-        setTimeout(() => (btn.textContent = btn.getAttribute('data-original') || 'Add'), 1800);
-      } catch (err) {
-        console.error(err);
-        alert('Sorry, could not add to basket.');
-      } finally {
-        btn.disabled = false;
-      }
-    });
-  }
 
   function wireNav(root) {
     const scroller = root.querySelector('.book-carousel__scroller');
