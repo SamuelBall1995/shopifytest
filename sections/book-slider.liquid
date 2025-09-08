@@ -1,0 +1,58 @@
+{% comment %}
+Books/products slider carousel that fetches data with the Shopify Storefront API
+and renders a mobile-first slider. No product data is rendered with Liquid product loops.
+{% endcomment %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+<section
+  id="books-slider-{{ section.id }}"
+  class="book-carousel"
+  data-config-asset="{{ section.settings.config_asset | asset_url }}"
+  data-currency="{{ shop.currency }}"
+  data-locale="{{ request.locale.iso_code }}"
+  aria-labelledby="books-slider-title-{{ section.id }}"
+>
+  <div class="book-carousel__container">
+    <header class="book-carousel__header">
+      <h2 id="books-slider-title-{{ section.id }}" class="book-carousel__title"></h2>
+      <a class="book-carousel__viewall" href="#" hidden>View all</a>
+    </header>
+
+    <div class="book-carousel__rail">
+      <button class="book-carousel__nav book-carousel__nav--prev" aria-label="Previous" disabled>
+        <!-- chevron left (grabbed chevron svg paths online, could also have just imported some svg/png of a chevron, but pressed for time and still wanted it mobile-friendly)-->
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+
+      <div class="book-carousel__scroller" role="region" aria-live="polite"></div>
+
+      <button class="book-carousel__nav book-carousel__nav--next" aria-label="Next" disabled>
+        <!-- chevron right -->
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+{{ 'books-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'books-slider.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Books slider (API)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "config_asset",
+      "label": "Config JSON asset filename",
+      "default": "books-slider.config.json",
+      "info": "Create this JSON in Assets and put its filename here."
+    }
+  ],
+  "presets": [
+    { "name": "Books slider (API)" }
+  ]
+}
+{% endschema %}

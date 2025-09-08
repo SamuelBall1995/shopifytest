@@ -1,0 +1,115 @@
+/* Mobile-first slider with CSS variables fed by config */
+.book-carousel {
+  --gap: 16px;
+  --cols-mobile: 2;
+  --cols-tablet: 3;
+  --cols-desktop: 5;
+  --cta-bg: #f4ce00;
+  --cta-text: #111;
+  --badge-bg: #1aa96b;
+  --badge-text: #fff;
+  --price-color: #111;
+  --title-color: #111;
+  --muted-color: #555;
+  --card-bg: #fff;
+  --card-border: #e5e5e5;
+
+  display:block;
+  padding: 16px 0;
+  background: transparent;
+}
+
+.book-carousel__container { max-width: var(--page-width, 1200px); margin: 0 auto; padding: 0 16px; }
+.book-carousel__header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 12px; gap: 12px; }
+.book-carousel__title { font-size: clamp(18px, 2.5vw, 24px); margin:0; color: var(--title-color); }
+.book-carousel__viewall { font-size: 14px; text-decoration: none; color: var(--muted-color); }
+.book-carousel__rail { position: relative; }
+
+.book-carousel__nav {
+  position: absolute; top: 40%; transform: translateY(-50%);
+  background: #fff; border: 1px solid #ddd; border-radius: 999px;
+  width: 36px; height: 36px; display:grid; place-items:center;
+  cursor: pointer; z-index: 2;
+}
+.book-carousel__nav[disabled] { opacity: .4; cursor: default; }
+.book-carousel__nav--prev { left: -6px; }
+.book-carousel__nav--next { right: -6px; }
+
+.book-carousel__scroller {
+  display:flex;
+  gap: var(--gap);
+  overflow-x:auto; -webkit-overflow-scrolling: touch;
+  scroll-snap-type: inline mandatory;
+  padding-bottom: 8px;
+}
+
+.book-card {
+  flex: 0 0 auto;
+  min-width: calc((100% - var(--gap) * (var(--cols) - 1)) / var(--cols));
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 10px;
+  scroll-snap-align: start;
+}
+
+.book-card__media {
+  position: relative;
+  width: 100%;
+  background: #f7f7f7;
+  border-radius: 8px;
+  overflow: hidden;
+  /* fallback size (3:4) for older browsers: */
+}
+.book-card__media::before {
+  content: "";
+  display: block;
+  padding-top: 133.333%; /* 3:4 ratio */
+}
+/* absolutely place the image */
+.book-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* cover to crop edges neatly */
+}
+
+/* If the browser supports aspect-ratio, use it and drop the fallback */
+@supports (aspect-ratio: 3 / 4) {
+  .book-card__media { aspect-ratio: 3 / 4; }
+  .book-card__media::before { display: none; }
+}
+
+.book-card__save {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(255,255,255,.9); border: 1px solid #ddd; border-radius: 999px; width: 32px; height: 32px;
+  display:grid; place-items:center; cursor: pointer;
+}
+
+.book-card__title { font-size: 14px; line-height: 1.3; margin: 0 0 4px; color: var(--title-color); }
+.book-card__vendor { font-size: 12px; color: var(--muted-color); margin: 0 0 4px; }
+.book-card__price { font-size: 16px; font-weight: 700; color: var(--price-color); margin: 0 0 8px; }
+
+.book-card__badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  background: var(--badge-bg); color: var(--badge-text);
+  padding: 4px 6px; border-radius: 4px; margin-bottom: 8px;
+}
+
+.book-card__cta {
+  width: 100%;
+  border: 0; border-radius: 8px;
+  background: var(--cta-bg); color: var(--cta-text);
+  font-weight: 700; padding: 10px 12px; cursor: pointer;
+}
+
+/* columns by breakpoint (computed via --cols variable) */
+.book-carousel { --cols: var(--cols-mobile); }
+@media (min-width: 768px) { .book-carousel { --cols: var(--cols-tablet); } }
+@media (min-width: 1024px) { .book-carousel { --cols: var(--cols-desktop); } }
+
+/* Hide arrows on small screens if you want only swipe/scroll */
+@media (max-width: 767px) {
+  .book-carousel__nav { display:none; }
+}
